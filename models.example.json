@@ -1,0 +1,25 @@
+{
+  "providers": {
+    "azure-anthropic": {
+      "baseUrl": "https://RESOURCE.services.ai.azure.com/anthropic",
+      "api": "anthropic-messages",
+      "apiKey": "YOUR_AZURE_API_KEY",
+      "models": [
+        {
+          "id": "claude-sonnet-4-5",
+          "name": "Claude Sonnet 4.5 (Azure)",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 200000,
+          "maxTokens": 64000,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        }
+      ]
+    }
+  }
+}
