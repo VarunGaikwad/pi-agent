@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
+- Fixed the package extension entry point so the custom TUI, workflow modes, tools, usage commands, and orchestrator are loaded.
 - Renamed the working-tree review prompt from `/review-change` to `/review`.
 - Redesigned the automatic TUI as a responsive coding-workbench interface with a project welcome panel, workflow-aware footer, contextual title, and animated working indicator.
 - Reformatted `/usage` and `/cost` as a compact `Session` summary with API/wall duration and code-change totals.

@@ -1,5 +1,13 @@
 import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
+import askUserQuestion from "./ask-user-question.js";
+import glob from "./glob.js";
+import grep from "./grep.js";
+import workflowModes from "./modes.js";
+import orchestrator from "./orchestrator/index.js";
+import codingAgentTui from "./tui.js";
+import usage from "./usage.js";
+import webSearch from "./web-search.js";
 
 const PACKAGE_VERSION = "0.1.0";
 
@@ -34,7 +42,16 @@ function diagnostics(pi: ExtensionAPI, ctx: ExtensionContext): PackageDiagnostic
   };
 }
 
-export default function packageInfo(pi: ExtensionAPI): void {
+export default function piAgent(pi: ExtensionAPI): void {
+  askUserQuestion(pi);
+  glob(pi);
+  grep(pi);
+  orchestrator(pi);
+  codingAgentTui(pi);
+  usage(pi);
+  webSearch(pi);
+  workflowModes(pi);
+
   pi.registerTool({
     name: "package_diagnostics",
     label: "Package Diagnostics",
