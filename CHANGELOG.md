@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Added an always-on system guard that blocks agent writes outside the workspace and confirms sensitive writes, potentially destructive shell commands, and destructive Git operations, failing closed without a confirmation UI.
 - Added direct `/code`, `/plan`, `/ask`, `/debug`, and `/orchestrator` workflow commands with persistent tool policies and a footer mode indicator.
 - Added isolated subagent delegation with bundled scout, planner, worker, debugger, and reviewer roles, per-agent model overrides, parallel read-only work, and nested usage accounting.
 - Added central orchestrator model assignments through an `agents` map in `~/.pi/agent/models.json`.

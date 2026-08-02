@@ -3,6 +3,7 @@ import { Type } from "typebox";
 import askUserQuestion from "./ask-user-question.js";
 import glob from "./glob.js";
 import grep from "./grep.js";
+import systemGuard from "./guard.js";
 import workflowModes from "./modes.js";
 import orchestrator from "./orchestrator/index.js";
 import codingAgentTui from "./tui.js";
@@ -46,6 +47,7 @@ export default function piAgent(pi: ExtensionAPI): void {
   askUserQuestion(pi);
   glob(pi);
   grep(pi);
+  systemGuard(pi);
   orchestrator(pi);
   codingAgentTui(pi);
   usage(pi);

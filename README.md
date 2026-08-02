@@ -3,7 +3,7 @@
 A ready-to-customize [Pi](https://pi.dev) package containing all four Pi resource types:
 
 - an automatic coding-workbench TUI with a responsive welcome panel, live workflow footer, and warm theme
-- TypeScript extensions with five direct workflow modes, real subagent delegation, `AskUserQuestion`, `Glob`, `Grep`, `WebSearch`, `package_diagnostics`, `/package-info`, and a compact `/usage` (`/cost`) session summary
+- TypeScript extensions with five direct workflow modes, a system guard, real subagent delegation, `AskUserQuestion`, `Glob`, `Grep`, `WebSearch`, `package_diagnostics`, `/package-info`, and a compact `/usage` (`/cost`) session summary
 - Agent Skills for Pi package development, planning interviews, frontend design, terse communication, and minimal coding
 - a `/review` prompt template
 - three complete terminal themes: warm `pi-agent`, dark `preapexis-neon`, and light `preapexis-paper`
@@ -65,7 +65,7 @@ pi install npm:pi-agent
 pi install git:github.com/OWNER/REPOSITORY@v0.1.0
 ```
 
-Pi packages execute with full system access. Review every extension and skill before installing it.
+Pi packages execute with full system access. Review every extension and skill before installing it. This package's guard blocks agent writes outside the workspace and asks before sensitive writes or dangerous shell commands; non-interactive sessions fail closed when confirmation is required. It is defense in depth, not an OS sandbox.
 
 ## Customize this starter
 
@@ -119,6 +119,10 @@ Interactive sessions automatically use a coding-workbench interface:
 - animated working indicator, contextual terminal title, and package theme
 
 Pi's standard editor remains unchanged. Use `/pi-agent-ui` to toggle the interface; non-interactive, JSON, and RPC modes are unaffected.
+
+### System guard
+
+The always-on guard intercepts agent tool calls. It blocks `write` and `edit` paths that resolve outside the current workspace, including symlink escapes, and requires confirmation for sensitive paths such as `.env`, `.git`, credentials, and secrets. Shell commands involving privilege escalation, destructive disk/file/process operations, system paths, global package changes, download-to-shell pipelines, or destructive Git operations (`push`, `clean`, `rebase`, hard resets, forced checkout/restore, branch deletion, stash deletion, and worktree removal) also require confirmation. When no confirmation UI exists, guarded operations are denied.
 
 ### Workflow modes
 

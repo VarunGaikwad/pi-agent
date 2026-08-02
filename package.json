@@ -1,6 +1,6 @@
 {
   "name": "@preapexis/pi-agent",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A batteries-included starter package for customizing the Pi coding agent.",
   "type": "module",
   "license": "MIT",
