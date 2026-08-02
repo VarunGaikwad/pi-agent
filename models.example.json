@@ -1,4 +1,8 @@
 {
+  "agents": {
+    "scout": "azure-anthropic/claude-sonnet-4-5:low",
+    "reviewer": "azure-anthropic/claude-sonnet-4-5:high"
+  },
   "providers": {
     "azure-anthropic": {
       "baseUrl": "https://RESOURCE.services.ai.azure.com/anthropic",

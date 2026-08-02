@@ -16,6 +16,14 @@ export function fitColumns(left: string, right: string, width: number): string {
 }
 
 export default function minimalTui(pi: ExtensionAPI): void {
+  let workflowMode = "code";
+  let requestRender: (() => void) | undefined;
+
+  pi.events.on("workflow-mode:changed", (value) => {
+    if (typeof value === "string") workflowMode = value;
+    requestRender?.();
+  });
+
   pi.on("session_start", (_event, ctx) => {
     if (ctx.mode !== "tui") return;
 
@@ -38,9 +46,13 @@ export default function minimalTui(pi: ExtensionAPI): void {
     }));
 
     ctx.ui.setFooter((tui, _theme, footerData) => {
-      const unsubscribe = footerData.onBranchChange(() => tui.requestRender());
+      requestRender = () => tui.requestRender();
+      const unsubscribe = footerData.onBranchChange(requestRender);
       return {
-        dispose: unsubscribe,
+        dispose() {
+          requestRender = undefined;
+          unsubscribe();
+        },
         invalidate() {},
         render(width: number): string[] {
           const theme = ctx.ui.theme;
@@ -51,7 +63,7 @@ export default function minimalTui(pi: ExtensionAPI): void {
           const usage = ctx.getContextUsage()?.percent;
           const context = usage == null ? "ctx —" : `ctx ${Math.round(usage)}%`;
           const branch = footerData.getGitBranch();
-          const left = `${theme.fg("text", model)}${theme.fg("dim", thinking)}`;
+          const left = `${theme.fg("text", model)}${theme.fg("dim", thinking)}${theme.fg("accent", ` · ${workflowMode}`)}`;
           const right = `${branch ? `${theme.fg("muted", branch)} · ` : ""}${theme.fg("dim", context)}`;
           return [fitColumns(left, right, width)];
         },
@@ -61,6 +73,7 @@ export default function minimalTui(pi: ExtensionAPI): void {
 
   pi.on("session_shutdown", (_event, ctx) => {
     if (ctx.mode !== "tui") return;
+    requestRender = undefined;
     ctx.ui.setHeader(undefined);
     ctx.ui.setFooter(undefined);
   });

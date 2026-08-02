@@ -40,6 +40,20 @@ async function findFiles(directory, predicate) {
   return matches;
 }
 
+for (const agentPath of await findFiles(join(root, "agents"), (name) => name.endsWith(".md"))) {
+  const source = await readFile(agentPath, "utf8");
+  const frontmatter = source.match(/^---\n([\s\S]*?)\n---/u)?.[1] ?? "";
+  if (!/^name: [a-z0-9]+(?:-[a-z0-9]+)*$/mu.test(frontmatter)) {
+    fail(`${agentPath}: missing or invalid agent name`);
+  }
+  if (!/^description: .+$/mu.test(frontmatter)) {
+    fail(`${agentPath}: missing agent description`);
+  }
+  if (!/^read-only: (?:true|false)$/mu.test(frontmatter)) {
+    fail(`${agentPath}: missing read-only policy`);
+  }
+}
+
 for (const skillPath of await findFiles(join(root, "skills"), (name) => name === "SKILL.md")) {
   const source = await readFile(skillPath, "utf8");
   const frontmatter = source.match(/^---\n([\s\S]*?)\n---/u)?.[1] ?? "";

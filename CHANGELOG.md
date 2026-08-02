@@ -15,6 +15,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Added direct `/code`, `/plan`, `/ask`, `/debug`, and `/orchestrator` workflow commands with persistent tool policies and a footer mode indicator.
+- Added isolated subagent delegation with bundled scout, planner, worker, debugger, and reviewer roles, per-agent model overrides, parallel read-only work, and nested usage accounting.
+- Added central orchestrator model assignments through an `agents` map in `~/.pi/agent/models.json`.
+- Restored the documented `package_diagnostics` tool and `/package-info` command.
 - Added `models.example.json` for configuring an Azure Anthropic endpoint without environment variables.
 - Added a no-key `WebSearch` tool backed by Bing RSS with allowed and blocked domain filters.
 - Added a `Grep` tool for searching file contents with regex, literal, glob, context, and limit options.

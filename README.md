@@ -3,7 +3,7 @@
 A ready-to-customize [Pi](https://pi.dev) package containing all four Pi resource types:
 
 - an automatic minimal TUI with a one-line project header, compact model/context footer, and warm theme
-- TypeScript extensions with `AskUserQuestion`, `Glob`, `Grep`, `WebSearch`, `package_diagnostics`, `/package-info`, and a compact `/usage` (`/cost`) session summary
+- TypeScript extensions with five direct workflow modes, real subagent delegation, `AskUserQuestion`, `Glob`, `Grep`, `WebSearch`, `package_diagnostics`, `/package-info`, and a compact `/usage` (`/cost`) session summary
 - Agent Skills for Pi package development, planning interviews, frontend design, terse communication, and minimal coding
 - a `/review` prompt template
 - three complete terminal themes: warm `pi-agent`, dark `preapexis-neon`, and light `preapexis-paper`
@@ -28,6 +28,7 @@ pi -e .
 
 - the minimal custom interface appears immediately—no `/tui` command is needed
 - run `/package-info` or `/package-info verbose`
+- switch directly with `/code`, `/plan`, `/ask`, `/debug`, or `/orchestrator`
 - run `/usage` (or `/cost`) to see current-session cost, API/wall time, code changes, and token usage
 - ask the agent to call `AskUserQuestion` for interactive single- or multi-select clarification
 - ask the agent to call `Glob` to find files by pattern
@@ -119,6 +120,39 @@ Interactive sessions automatically use a minimal interface:
 
 Pi's standard editor and working indicator remain unchanged. No `/tui` command is required; non-interactive, JSON, and RPC modes are unaffected.
 
+### Workflow modes
+
+The active mode persists in the session and appears beside the model in the custom footer:
+
+- `/code` — implement focused changes with normal tools; this is the default
+- `/plan` — inspect and plan with read-only tools and guarded shell commands
+- `/ask` — answer repository questions without file or shell mutation
+- `/debug` — reproduce, diagnose, fix, and verify failures
+- `/orchestrator` — keep the parent read-only and delegate to isolated specialist Pi processes
+
+The mode commands are idempotent: invoking the active command simply reapplies its policy. `/plan`, `/ask`, and `/orchestrator` enforce their restrictions at both the active-tool and tool-call layers.
+
+### Orchestrator and subagents
+
+Orchestrator mode exposes the `subagent` tool and bundles five roles under `agents/`: `scout`, `planner`, `worker`, `debugger`, and `reviewer`. Read-only agents can run in parallel, while workers must run sequentially to avoid conflicting writes in one working tree. Each child runs through Pi JSON mode with an isolated context and reports its output and usage to the parent session.
+
+An agent uses the parent model and thinking level by default. To assign models centrally, add this package's optional `agents` map to `~/.pi/agent/models.json` alongside `providers`:
+
+```json
+{
+  "providers": {},
+  "agents": {
+    "scout": "provider/fast-model:low",
+    "worker": "provider/coding-model:high",
+    "reviewer": "provider/review-model:high"
+  }
+}
+```
+
+Assignments are reloaded for each delegation. Resolution order is the `models.json` assignment, an optional `model: provider/model-id:low` in the agent's Markdown frontmatter, then the parent model. The `agents` key is a package extension rather than a standard Pi model field; Pi 0.83 permits additional top-level fields.
+
+Bundled definitions are loaded first. Files with the same agent name in `~/.pi/agent/agents/` override them globally; trusted `.pi/agents/` files override them for a project and require confirmation before execution in interactive sessions. Use `pi --list-models` to find valid `provider/model-id` values. Project-local agent prompts are repository-controlled code-generation instructions, so review them before approval.
+
 ### AskUserQuestion tool
 
 `AskUserQuestion` lets the agent ask up to four focused questions with two to four options each. It supports single-select, multi-select, custom text answers, cancellation, and both interactive TUI and RPC dialogs.
@@ -195,7 +229,8 @@ Add JSON files to `themes/` with a unique `name` and every required Pi color tok
 
 ```text
 .
-├── extensions/                  # TUI, diagnostics, and usage extensions
+├── agents/                      # Bundled orchestrator subagent definitions
+├── extensions/                  # Modes, subagents, TUI, diagnostics, and usage
 ├── skills/                      # Local and vendored Agent Skills
 ├── prompts/                     # Prompt templates (non-recursive)
 ├── themes/                      # TUI themes

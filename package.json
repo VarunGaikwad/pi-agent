@@ -13,6 +13,7 @@
   ],
   "files": [
     "extensions",
+    "agents",
     "skills",
     "prompts",
     "themes",
