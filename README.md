@@ -2,7 +2,7 @@
 
 A ready-to-customize [Pi](https://pi.dev) package containing all four Pi resource types:
 
-- an automatic minimal TUI with a one-line project header, compact model/context footer, and warm theme
+- an automatic coding-workbench TUI with a responsive welcome panel, live workflow footer, and warm theme
 - TypeScript extensions with five direct workflow modes, real subagent delegation, `AskUserQuestion`, `Glob`, `Grep`, `WebSearch`, `package_diagnostics`, `/package-info`, and a compact `/usage` (`/cost`) session summary
 - Agent Skills for Pi package development, planning interviews, frontend design, terse communication, and minimal coding
 - a `/review` prompt template
@@ -112,13 +112,13 @@ If `~/.pi/agent/models.json` already exists, merge the `azure-anthropic` provide
 
 ### Custom TUI
 
-Interactive sessions automatically use a minimal interface:
+Interactive sessions automatically use a coding-workbench interface:
 
-- one-line `pi` header with the current project
-- compact footer with model, thinking level, git branch, and context usage
-- package theme and a concise terminal title
+- responsive `PI AGENT` welcome panel with the project, path, workflow commands, and help hints
+- live footer with workflow mode, model, thinking level, extension status, git branch, and context usage
+- animated working indicator, contextual terminal title, and package theme
 
-Pi's standard editor and working indicator remain unchanged. No `/tui` command is required; non-interactive, JSON, and RPC modes are unaffected.
+Pi's standard editor remains unchanged. Use `/pi-agent-ui` to toggle the interface; non-interactive, JSON, and RPC modes are unaffected.
 
 ### Workflow modes
 

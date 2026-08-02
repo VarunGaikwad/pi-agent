@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 
 - Renamed the working-tree review prompt from `/review-change` to `/review`.
-- Simplified the automatic TUI to a one-line project header and compact model, branch, and context footer while keeping Pi's standard editor and working indicator.
+- Redesigned the automatic TUI as a responsive coding-workbench interface with a project welcome panel, workflow-aware footer, contextual title, and animated working indicator.
 - Reformatted `/usage` and `/cost` as a compact `Session` summary with API/wall duration and code-change totals.
 - Respect explicitly selected custom and light themes instead of always forcing `pi-agent`.
 
