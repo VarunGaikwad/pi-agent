@@ -1,6 +1,6 @@
 {
   "name": "@preapexis/pi-agent",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A batteries-included starter package for customizing the Pi coding agent.",
   "type": "module",
   "license": "MIT",
@@ -19,6 +19,9 @@
     "themes",
     "CHANGELOG.md",
     "LICENSE",
+    "model.anthropic.json",
+    "model.openai.json",
+    "model.openai-compatible.json",
     "models.example.json",
     "README.md",
     "THIRD_PARTY_NOTICES.md"

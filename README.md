@@ -110,6 +110,16 @@ chmod 600 ~/.pi/agent/models.json
 
 If `~/.pi/agent/models.json` already exists, merge the `azure-anthropic` provider into it instead of overwriting it. Then open `/model` and choose `azure-anthropic/<model>`. Keep the base URL at the Anthropic service root rather than the full `/v1/messages` URL. Cost rates are zero because Azure pricing depends on the deployment.
 
+### Model API examples
+
+Three standalone examples show how API type and token pricing fit together:
+
+- [`model.anthropic.json`](model.anthropic.json) uses `anthropic-messages`. `cacheWrite` is the 5-minute write rate, `cacheRead` is the cache-hit/refresh rate, and Pi prices Anthropic 1-hour writes reported by the API at twice the input rate.
+- [`model.openai.json`](model.openai.json) uses OpenAI's native `openai-responses` API. OpenAI cached-input pricing belongs in `cacheRead`; leave `cacheWrite` at zero unless the selected API reports separately billed write tokens.
+- [`model.openai-compatible.json`](model.openai-compatible.json) uses `openai-completions`, the most broadly supported API for third-party OpenAI-compatible endpoints.
+
+All four cost values are USD per million tokens. Replace model IDs, limits, endpoints, and zero pricing placeholders with the values published by the selected provider. These files are references; merge the desired provider object into `~/.pi/agent/models.json` rather than copying multiple complete files over it.
+
 ### Custom TUI
 
 Interactive sessions automatically use a coding-workbench interface:

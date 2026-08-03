@@ -115,15 +115,16 @@ function renderWideHeader(theme: Theme, width: number, modelId: string, cwd: str
     centerCell(theme.fg("dim", compactPath(cwd)), leftWidth),
   ];
   const rightColumn = [
-    theme.fg("accent", theme.bold("Coding workspace")),
-    theme.fg("text", "Describe a change, paste an error, or ask about the repository"),
+    theme.fg("accent", theme.bold("Workspace")),
+    theme.fg("text", "Describe what you want to build, paste an error, or ask about the project."),
     theme.fg("accent", "─".repeat(rightWidth)),
-    theme.fg("accent", theme.bold("Workflows")),
-    `${theme.fg("accent", "/code")} implement focused changes`,
-    `${theme.fg("accent", "/plan")} inspect and design without editing`,
-    `${theme.fg("accent", "/debug")} reproduce, diagnose, fix, verify`,
-    `${theme.fg("accent", "/orchestrator")} delegate to specialist agents`,
-    theme.fg("muted", "/help for commands · ? for shortcuts"),
+    theme.fg("accent", theme.bold("Commands")),
+    `${theme.fg("accent", "/code")} make targeted code changes`,
+    `${theme.fg("accent", "/ask")} explain or answer questions`,
+    `${theme.fg("accent", "/plan")} inspect and propose a solution`,
+    `${theme.fg("accent", "/debug")} find and fix issues`,
+    `${theme.fg("accent", "/orchestrator")} delegate work across agents`,
+    theme.fg("muted", "/help for all commands • ? for shortcuts"),
   ];
 
   const lines = [topBorder(theme, `${BRAND_NAME} v${VERSION} · ${workflowMode}`, width)];
@@ -181,7 +182,7 @@ export default function codingAgentTui(pi: ExtensionAPI): void {
         requestRender = () => tui.requestRender();
         return {
           render: (width) => renderHeader(theme, width, ctx.model?.id ?? "no model selected", cwd),
-          invalidate() {},
+          invalidate() { },
         };
       });
 
@@ -190,7 +191,7 @@ export default function codingAgentTui(pi: ExtensionAPI): void {
         const unsubscribe = footerData.onBranchChange(requestRender);
         return {
           dispose: unsubscribe,
-          invalidate() {},
+          invalidate() { },
           render(width: number): string[] {
             let inputTokens = 0;
             let outputTokens = 0;

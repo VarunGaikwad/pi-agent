@@ -1,0 +1,25 @@
+{
+  "providers": {
+    "openai-compatible-example": {
+      "baseUrl": "https://YOUR_PROVIDER_HOST/v1",
+      "api": "openai-completions",
+      "apiKey": "$OPENAI_COMPATIBLE_API_KEY",
+      "models": [
+        {
+          "id": "YOUR_PROVIDER_MODEL_ID",
+          "name": "Your OpenAI-Compatible Model",
+          "reasoning": false,
+          "input": ["text"],
+          "contextWindow": 128000,
+          "maxTokens": 16384,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        }
+      ]
+    }
+  }
+}
